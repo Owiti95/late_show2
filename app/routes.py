@@ -95,3 +95,18 @@ def add_appearance():
             "occupation": guest.occupation
         }
     }), 201
+
+
+# DELETE /episodes/:id
+@main.route('/episodes/<int:id>', methods=['DELETE'])
+def delete_episode(id):
+    episode = Episode.query.get(id)
+
+    if episode is None:
+        return jsonify({"error": "Episode not found"}), 404
+
+    # delete the episode
+    db.session.delete(episode)
+    db.session.commit()
+
+    return jsonify({"message": f"Episode {id} deleted successfully."}), 200
